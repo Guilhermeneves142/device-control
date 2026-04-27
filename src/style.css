@@ -1,0 +1,15 @@
+@import url("./styles/tokens/color.css");
+@import url("./styles/tokens/radius.css");
+@import url("./styles/tokens/spacing.css");
+@import url("./styles/tokens/typograph.css");
+
+* {
+  margin: 0;
+  padding: 0;
+  color: var(--color-text-main);
+  font-family: var(--font-family-base);
+}
+
+body {
+  background-color: var(--color-background);
+}

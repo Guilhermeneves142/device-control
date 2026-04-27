@@ -1,0 +1,29 @@
+:host,
+:root {
+  --color-primary: #1e6fea;
+  --color-on-primary: #eaeef5;
+  --color-primary-hover: #1557c0;
+
+  --color-secondary: #8b5cf6;
+  --color-on-secondary: #ffffff;
+  --color-secondary-hover: #6d28d9;
+
+  --color-tertiary: #071f45;
+  --color-on-tertiary: #d9e2f2;
+  --color-tertiary-hover: #041a3d;
+
+  --color-feedback-success: #22c55e;
+  --color-feedback-error: #ef4444;
+  --color-feedback-warning: #f59e0b;
+
+  --color-background: #f5f7fa;
+  --color-border: #e5e7eb;
+  --color-surface: #fefefe;
+
+  --color-text-main: #111827;
+  --color-text-secondary: #6b7280;
+  --color-text-placeholder: #b1b3b8;
+
+  --color-disabled: #d4d4d4;
+  --color-on-disabled: #515763;
+}
