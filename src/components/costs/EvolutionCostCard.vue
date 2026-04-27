@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, useTemplateRef } from "vue";
+import { onMounted, ref, useTemplateRef } from "vue";
 import BaseCard from "../global/UI/base/BaseCard.vue";
 import Chart from "chart.js/auto";
 import CostsService from "@/services/CostsService";
