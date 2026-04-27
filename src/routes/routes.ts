@@ -1,6 +1,6 @@
 import {
+  createMemoryHistory,
   createRouter,
-  createWebHistory,
   type RouteRecordRaw,
 } from "vue-router";
 import mainRoutes from "./main.routes";
@@ -21,6 +21,6 @@ const routes: RouteRecordRaw[] = [
 ];
 
 export const router = createRouter({
-  history: createWebHistory(),
+  history: createMemoryHistory(),
   routes,
 });
