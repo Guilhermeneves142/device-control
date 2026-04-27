@@ -1,0 +1,38 @@
+on:
+  release:
+    types: [released]
+
+jobs: 
+  test:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Cancel Previous Runs
+          uses: styfle/cancel-workflow-action@0.9.0
+          with:
+            access_token: ${{ github.token }}
+  build: 
+    name: Deploy
+    runs-on: ubuntu-latest 
+    steps: 
+      - uses: actions/checkout@v4
+      
+      - name: Setup node.js environment 
+        uses: actions/setup-node@v4
+        with:
+            node-version: '22'
+            cache: 'npm'
+
+      - name: Npm ci
+        run: npm ci
+
+      - name: Realize tests
+        run: npm run test:unit && npm run test:integration
+
+      - name: npm build 
+        run: npm run build-dev 
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages # The branch the action should deploy to.
+          folder: dist # The folder the action should deploy.
