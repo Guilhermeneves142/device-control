@@ -1,6 +1,6 @@
 <template>
   <BaseCard>
-    <h1 class="title">Maiores custos por usuário</h1>
+    <h1 class="title">Detalhamento de custos</h1>
 
     <table class="detailed-costs-table">
       <thead>
@@ -13,7 +13,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in data" :key="item.department">
+        <tr v-for="item in dataFormatted" :key="item.department">
           <td>
             {{ item.department }}
           </td>
@@ -53,82 +53,43 @@
 <script setup lang="ts">
 import BaseCard from "@/components/global/UI/base/BaseCard.vue";
 import useFormat from "@/composables/useFormat";
-import { computed } from "vue";
+import CostsService from "@/services/CostsService";
+import { computed, onMounted, ref } from "vue";
 
 /* Composables */
 const { formatNumberToReal } = useFormat();
 
-/* Computed */
-const data = computed(() => {
-  return [
-    {
-      department: "Comercial",
-      category: "Voz",
-      value: formatNumberToReal(56420.3),
-      icon: {
-        color: "var(--color-primary)",
-        icon: "call",
-      },
-      percent: "20.9%",
-      variant: "+5.6%",
-    },
-    {
-      department: "Tecnologia",
-      category: "Dados móveis",
-      value: formatNumberToReal(54870.4),
-      icon: {
-        color: "var(--color-feedback-success)",
-        icon: "wifi",
-      },
-      percent: "19.7%",
-      variant: "-2.1%",
-    },
-    {
-      department: "Operações",
-      category: "Dispositivos",
-      value: formatNumberToReal(42310.2),
-      icon: {
-        color: "var(--color-secondary)",
-        icon: "mobile_2",
-      },
-      percent: "15.2%",
-      variant: "+8.4%",
-    },
-    {
-      department: "Administrativo",
-      category: "Voz",
-      value: formatNumberToReal(37650.1),
-      icon: {
-        color: "var(--color-primary)",
-        icon: "call",
-      },
-      percent: "13.5%",
-      variant: "-1.3%",
-    },
-    {
-      department: "Marketing",
-      category: "Dados móveis",
-      value: formatNumberToReal(32120.5),
-      icon: {
-        color: "var(--color-feedback-success)",
-        icon: "wifi",
-      },
-      percent: "11.5%",
-      variant: "-3.8%",
-    },
-    {
-      department: "Financeiro",
-      category: "SMS",
-      value: formatNumberToReal(12340.0),
-      icon: {
-        color: "var(--color-feedback-warning)",
-        icon: "call",
-      },
-      percent: "4.4%",
-      variant: "+6.7%",
-    },
-  ];
+/* Data */
+const data = ref<Costs.List[]>([]);
+const loading = ref(false);
+
+/* Hooks */
+onMounted(() => {
+  getData();
 });
+
+/* Computed */
+const dataFormatted = computed(() => {
+  return data.value.map((e) => {
+    return {
+      ...e,
+
+      value: formatNumberToReal(e.value),
+    };
+  });
+});
+
+/* Methods */
+async function getData() {
+  try {
+    loading.value = true;
+    data.value = await CostsService.getAll();
+  } catch (error) {
+    console.error(error);
+  } finally {
+    loading.value = false;
+  }
+}
 </script>
 
 <style scoped>
@@ -161,5 +122,28 @@ const data = computed(() => {
   padding: var(--spacing-1);
   font-size: var(--font-size-md);
   border-radius: var(--radius-md);
+}
+
+@media (max-width: 1366px) {
+  .title {
+    font-size: var(--font-size-md);
+    margin-bottom: var(--spacing-2);
+  }
+
+  .detailed-costs-table thead th {
+    padding: var(--spacing-1);
+    font-size: var(--font-size-sm);
+  }
+
+  .detailed-costs-table tbody td {
+    padding: var(--spacing-2);
+    font-size: var(--font-size-sm);
+  }
+
+  .icon-item {
+    padding: var(--spacing-1);
+    font-size: var(--font-size-sm);
+    border-radius: var(--radius-md);
+  }
 }
 </style>

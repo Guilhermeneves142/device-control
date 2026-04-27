@@ -14,7 +14,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in data" :key="item.device.code">
+        <tr v-for="item in dataFormatted" :key="item.device.code">
           <td>
             <section>
               <div class="main-item">{{ item.device.model }}</div>
@@ -54,187 +54,61 @@
 <script setup lang="ts">
 import BaseCard from "@/components/global/UI/base/BaseCard.vue";
 import useFormat from "@/composables/useFormat";
-import { computed } from "vue";
+import DevicesService from "@/services/DevicesService";
+import { computed, onMounted, ref } from "vue";
 
 /* Composables */
 const { formatNumberToReal } = useFormat();
 
-/* Computed */
-const data = computed(() => {
-  return [
-    {
-      device: {
-        model: "IPhone 14 Pro",
-        code: "Serial: 123 231 231",
-        platform: "iOS 17.4",
-      },
-      user: {
-        name: "Rafael Andrade",
-        email: "rafael.andrade@empresa.com",
-      },
-      status: {
-        color: "var(--color-feedback-success)",
-        text: "Ativo",
-      },
-      type: "SmartPhone",
-      politics: "Padrão corporativo",
-      monthlyCost: formatNumberToReal(196.8),
-      lastUpdate: "26/04/2026 22:37",
-    },
-    {
-      device: {
-        model: "Samsung Galaxy S23",
-        code: "Serial: 123 432 431",
-        platform: "Android 14",
-      },
-      user: {
-        name: "Bruce Wayne",
-        email: "bruce.wayne@empresa.com",
-      },
-      status: {
-        color: "var(--color-feedback-success)",
-        text: "Ativo",
-      },
-      type: "Notebook",
-      politics: "Padrão corporativo",
-      monthlyCost: formatNumberToReal(128.5),
-      lastUpdate: "26/04/2026 22:37",
-    },
-    {
-      device: {
-        model: 'MacBook Pro 14"',
-        code: "Serial: 123 231 231",
-        platform: "macOS 14.3",
-      },
-      user: {
-        name: "Dieni Kielermann",
-        email: "dieni.kielermann@empresa.com",
-      },
-      status: {
-        color: "var(--color-feedback-success)",
-        text: "Ativo",
-      },
-      type: "Notebook",
-      politics: "Acesso Restrito",
-      monthlyCost: formatNumberToReal(89.9),
-      lastUpdate: "26/04/2026 22:37",
-    },
-    {
-      device: {
-        model: "iPad Air (5ª geração)",
-        code: "Serial: 123 231 231",
-        platform: "iOS 17.4",
-      },
-      user: {
-        name: "Rayque Cuevas",
-        email: "rayque.cuevas@empresa.com",
-      },
-      status: {
-        color: "var(--color-feedback-error)",
-        text: "Bloqueado",
-      },
-      type: "Tablet",
-      politics: "Padrão corporativo",
-      monthlyCost: formatNumberToReal(0.0),
-      lastUpdate: "26/04/2026 22:37",
-    },
-    {
-      device: {
-        model: "Samsung Galaxy A54",
-        code: "Serial: 123 231 231",
-        platform: "Android 14",
-      },
-      user: {
-        name: "Rafaela Lopes",
-        email: "rafaela.lopes@empresa.com",
-      },
-      status: {
-        color: "var(--color-feedback-success)",
-        text: "Ativo",
-      },
-      type: "SmartPhone",
-      politics: "Padrão corporativo",
-      monthlyCost: formatNumberToReal(128.5),
-      lastUpdate: "26/04/2026 22:37",
-    },
-    {
-      device: {
-        model: "Dell Latitude 5440",
-        code: "Serial: 123 231 231",
-        platform: "Windows 11",
-      },
-      user: {
-        name: "Thiago Correa",
-        email: "thiago.correa@empresa.com",
-      },
-      status: {
-        color: "var(--color-disabled)",
-        text: "Inativo",
-      },
-      type: "Notebook",
-      politics: "Acesso Restrito",
-      monthlyCost: formatNumberToReal(0.0),
-      lastUpdate: "26/04/2026 22:37",
-    },
-    {
-      device: {
-        model: "Lenovo ThinkPad E14",
-        code: "Serial: 123 231 231",
-        platform: "Windows 10",
-      },
-      user: {
-        name: "Camila Nascimento",
-        email: "camila.nascimento@empresa.com",
-      },
-      status: {
-        color: "var(--color-feedback-success)",
-        text: "Ativo",
-      },
-      type: "Notebook",
-      politics: "Padrão corporativo",
-      monthlyCost: formatNumberToReal(196.8),
-      lastUpdate: "26/04/2026 22:37",
-    },
-    {
-      device: {
-        model: "IPhone 14 Pro",
-        code: "Serial: 123 231 231",
-        platform: "iOS 16.6",
-      },
-      user: {
-        name: "Rafael Ribeiro",
-        email: "rafael.ribeiro@empresa.com",
-      },
-      status: {
-        color: "var(--color-feedback-success)",
-        text: "Ativo",
-      },
-      type: "SmartPhone",
-      politics: "Padrão corporativo",
-      monthlyCost: formatNumberToReal(89.9),
-      lastUpdate: "26/04/2026 22:37",
-    },
-    {
-      device: {
-        model: "IPad Mini (6ª geração)",
-        code: "Serial: 123 231 231",
-        platform: "iOS 17.4",
-      },
-      user: {
-        name: "Juliete Poletti",
-        email: "juliete.poletti@empresa.com",
-      },
-      status: {
-        color: "var(--color-feedback-error)",
-        text: "Bloqueado",
-      },
-      type: "Tablet",
-      politics: "Acesso Restrito",
-      monthlyCost: formatNumberToReal(0.0),
-      lastUpdate: "26/04/2026 22:37",
-    },
-  ];
+/* Data */
+const data = ref<Device.Device[]>([]);
+const loading = ref(false);
+
+/* Hooks */
+onMounted(() => {
+  getData();
 });
+
+/* Computed */
+const dataFormatted = computed(() => {
+  return data.value.map((e) => {
+    return {
+      ...e,
+      status: generateStatusObject(e.status),
+      monthlyCost: formatNumberToReal(e.monthlyCost),
+    };
+  });
+});
+
+/* Methods */
+async function getData() {
+  try {
+    loading.value = true;
+    data.value = await DevicesService.getList();
+  } catch (error) {
+    console.error(error);
+  } finally {
+    loading.value = false;
+  }
+}
+
+function generateStatusObject(status: "ACTIVE" | "BLOCKED" | "DISABLED") {
+  const statusInfo = {
+    ACTIVE: {
+      text: "Ativo",
+      color: "var(--color-feedback-success)",
+    },
+    BLOCKED: {
+      text: "Bloqueado",
+      color: "var(--color-feedback-error)",
+    },
+    DISABLED: {
+      text: "Inativo",
+      color: "var(--color-feedback-warning)",
+    },
+  };
+  return statusInfo[status];
+}
 </script>
 
 <style scoped>
@@ -244,7 +118,7 @@ const data = computed(() => {
 }
 
 .devices-table thead th {
-  padding: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
   color: var(--color-text-secondary);
   font-weight: var(--font-weight-semibold);
   text-align: start;
@@ -285,5 +159,29 @@ const data = computed(() => {
   width: 10px;
   height: 10px;
   border-radius: 9999px;
+}
+
+@media (max-width: 1366px) {
+  .devices-table thead th {
+    font-size: var(--font-size-sm);
+  }
+
+  .devices-table tbody td {
+    padding-bottom: var(--spacing-1);
+    padding-top: var(--spacing-1);
+    font-size: var(--font-size-sm);
+  }
+
+  .main-item {
+    margin-bottom: 0;
+  }
+
+  .sub-item {
+    font-size: var(--font-size-xs);
+  }
+
+  .type-column {
+    padding: var(--spacing-1);
+  }
 }
 </style>

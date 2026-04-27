@@ -2,7 +2,7 @@
   <header class="main-header">
     <section>
       <h1 class="title">{{ headerData?.title }}</h1>
-      <h3 class="subtitle">{{ headerData?.subtitle }}</h3>
+      <h2 class="subtitle">{{ headerData?.subtitle }}</h2>
     </section>
     <section>
       <span class="material-symbols-outlined notify">notifications</span>

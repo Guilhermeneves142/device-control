@@ -14,7 +14,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in data" :key="item.name">
+        <tr v-for="item in dataFormatted" :key="item.device.code">
           <td>
             <div
               style="display: flex; align-items: center; gap: var(--spacing-3)"
@@ -23,8 +23,8 @@
                 person
               </figure>
               <section>
-                <div class="main-item">{{ item.name }}</div>
-                <span class="sub-item">{{ item.email }}</span>
+                <div class="main-item">{{ item.user.name }}</div>
+                <span class="sub-item">{{ item.user.email }}</span>
               </section>
             </div>
           </td>
@@ -37,11 +37,11 @@
               </figure>
               <section>
                 <div class="main-item">{{ item.device.model }}</div>
-                <span class="sub-item">{{ item.device.phoneNumber }}</span>
+                <span class="sub-item">{{ item.device.code }}</span>
               </section>
             </div>
           </td>
-          <td>{{ item.plan }}</td>
+          <td>{{ item.politics }}</td>
           <td>{{ item.monthlyCost }}</td>
           <td>
             <div class="status-pill">
@@ -62,78 +62,44 @@
 <script setup lang="ts">
 import BaseCard from "@/components/global/UI/base/BaseCard.vue";
 import useFormat from "@/composables/useFormat";
-import { computed } from "vue";
+import DevicesService from "@/services/DevicesService";
+import { computed, onMounted, ref } from "vue";
 
 /* Composables */
 const { formatNumberToReal } = useFormat();
 
+/* Data */
+const data = ref<Device.Device[]>([]);
+const loading = ref(false);
+
+/* Hooks */
+onMounted(() => {
+  getData();
+});
+
 /* Computed */
-const data = computed(() => {
-  return [
-    {
-      name: "Rafael Andrade",
-      email: "rafael.andrade@empresa.com",
-      device: {
-        model: "IPhone 14 Pro",
-        phoneNumber: "5511999990001",
-      },
-      plan: "Corporativo 20GB",
-      monthlyCost: formatNumberToReal(56.8),
+const dataFormatted = computed(() => {
+  return data.value.map((e) => {
+    return {
+      ...e,
+      monthlyCost: formatNumberToReal(e.monthlyCost),
       status: generateStatusObject("ACTIVE"),
-      lastUpdate: "27/05/2026 10:30",
-    },
-    {
-      name: "Bruce Wayne",
-      email: "bruce.wayne@empresa.com",
-      device: {
-        model: "IPhone 16 Pro",
-        phoneNumber: "5511999990001",
-      },
-      plan: "Corporativo 20GB",
-      monthlyCost: formatNumberToReal(196.8),
-      status: generateStatusObject("ACTIVE"),
-      lastUpdate: "26/05/2026 10:30",
-    },
-    {
-      name: "Dieni Kielermann",
-      email: "dieni.kielermann@empresa.com",
-      device: {
-        model: "Samsung S24",
-        phoneNumber: "5511999990001",
-      },
-      plan: "Corporativo 10GB",
-      monthlyCost: formatNumberToReal(296.8),
-      status: generateStatusObject("WARNING"),
-      lastUpdate: "25/05/2026 10:30",
-    },
-    {
-      name: "Rayque Cuevas",
-      email: "rayque.cuevas@empresa.com",
-      device: {
-        model: "Samsung S23+",
-        phoneNumber: "5511999990001",
-      },
-      plan: "Corporativo 50GB",
-      monthlyCost: formatNumberToReal(106.8),
-      status: generateStatusObject("BLOCKED"),
-      lastUpdate: "24/05/2026 10:30",
-    },
-    {
-      name: "Rafaela Lopes",
-      email: "rafaela.lopes@empresa.com",
-      device: {
-        model: "IPhone 14 Pro",
-        phoneNumber: "5511999990001",
-      },
-      plan: "Corporativo 20GB",
-      monthlyCost: formatNumberToReal(19.8),
-      status: generateStatusObject("ACTIVE"),
-      lastUpdate: "23/05/2026 10:30",
-    },
-  ];
+    };
+  });
 });
 
 /* Methods */
+async function getData() {
+  try {
+    loading.value = true;
+    data.value = await DevicesService.getRecentList();
+  } catch (error) {
+    console.error(error);
+  } finally {
+    loading.value = false;
+  }
+}
+
 function generateStatusObject(status: "ACTIVE" | "BLOCKED" | "WARNING") {
   const statusInfo = {
     ACTIVE: {

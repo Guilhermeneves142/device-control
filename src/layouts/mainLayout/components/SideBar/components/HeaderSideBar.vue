@@ -5,7 +5,7 @@
     </div>
     <div>
       <h1 class="title">Device Ctrl</h1>
-      <h3 class="subtitle">controle de dispositivos</h3>
+      <h2 class="subtitle">controle de dispositivos</h2>
     </div>
   </header>
 </template>

@@ -1,39 +1,14 @@
 <template>
   <div style="display: flex; gap: 20px; justify-content: space-around">
     <InfoCard
-      icon="mobile_2"
+      v-for="item in cardFormatted"
+      :key="item.title"
+      :icon="item.icon"
       icon-color="white"
-      background-color="var(--color-primary)"
-      title="Total de dispositivos"
-      value="1.248"
-      text-footer="+8.2"
-      style="flex: 1"
-    />
-    <InfoCard
-      icon="check"
-      icon-color="white"
-      background-color="var(--color-feedback-success)"
-      title="Ativos"
-      value="982"
-      text-footer="+5.4"
-      style="flex: 1"
-    />
-    <InfoCard
-      icon="lock"
-      icon-color="white"
-      background-color="var(--color-feedback-warning)"
-      title="Bloqueados"
-      value="38"
-      text-footer="-12.6"
-      style="flex: 1"
-    />
-    <InfoCard
-      icon="phone_disabled"
-      icon-color="white"
-      background-color="var(--color-secondary)"
-      title="Inativos"
-      value="228"
-      text-footer="-3.1"
+      :background-color="item.backgroundColor"
+      :title="item.title"
+      :value="item.value"
+      :text-footer="item.increase"
       style="flex: 1"
     />
   </div>
@@ -41,4 +16,74 @@
 
 <script setup lang="ts">
 import InfoCard from "@/components/global/infoCard/InfoCard.vue";
+import DevicesService from "@/services/DevicesService";
+import { computed, onMounted, ref } from "vue";
+
+/* Data */
+const data = ref<Device.CardHeader>({
+  totalDevices: {
+    value: 0,
+    increase: "",
+  },
+  active: {
+    value: 0,
+    increase: "",
+  },
+  blocked: {
+    value: 0,
+    increase: "",
+  },
+  disabled: {
+    value: 0,
+    increase: "",
+  },
+});
+const loading = ref(false);
+
+/* Hooks */
+onMounted(() => {
+  getData();
+});
+
+/* Computed */
+const cardFormatted = computed(() => {
+  return [
+    {
+      icon: "mobile_2",
+      backgroundColor: "var(--color-primary)",
+      title: "Total de dispositivos",
+      ...data.value.totalDevices,
+    },
+    {
+      icon: "check",
+      backgroundColor: "var(--color-feedback-success)",
+      title: "Ativos",
+      ...data.value.active,
+    },
+    {
+      icon: "lock",
+      backgroundColor: "var(--color-feedback-warning)",
+      title: "Bloqueados",
+      ...data.value.blocked,
+    },
+    {
+      icon: "phone_disabled",
+      backgroundColor: "var(--color-secondary)",
+      title: "Inativos",
+      ...data.value.disabled,
+    },
+  ];
+});
+
+/* Methods */
+async function getData() {
+  try {
+    loading.value = true;
+    data.value = await DevicesService.getCardHeader();
+  } catch (error) {
+    console.error(error);
+  } finally {
+    loading.value = false;
+  }
+}
 </script>

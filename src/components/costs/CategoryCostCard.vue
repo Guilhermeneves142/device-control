@@ -7,11 +7,11 @@
       </figure>
       <table class="main-info-table">
         <tbody>
-          <tr v-for="item in data" :key="item.description">
+          <tr v-for="item in dataFormatted" :key="item.type">
             <td>
               <div class="table-category">
                 <span class="dot" :style="{ backgroundColor: item.color }" />
-                {{ item.description }}
+                {{ item.type }}
               </div>
             </td>
             <td>
@@ -28,10 +28,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, useTemplateRef } from "vue";
+import { computed, onMounted, ref, useTemplateRef } from "vue";
 import BaseCard from "../global/UI/base/BaseCard.vue";
 import Chart from "chart.js/auto";
 import useFormat from "@/composables/useFormat";
+import CostsService from "@/services/CostsService";
 
 /* Refs */
 const chartRef = useTemplateRef("cost-chart");
@@ -39,47 +40,39 @@ const chartRef = useTemplateRef("cost-chart");
 /* Composables */
 const { formatNumberToReal } = useFormat();
 
+/* Data */
+const data = ref<Costs.ByCategory[]>([]);
+const loading = ref(false);
+
 /* Hooks */
 onMounted(() => {
-  generateChart();
+  getData();
 });
 
 /* Computed */
-const data = computed(() => {
-  return [
-    {
-      description: "Voz",
-      value: 82128.4,
-      color: "#1e6fea",
-      percent: 46,
-    },
-    {
-      description: "Dados móveis",
-      value: 55347.4,
-      color: "#22c55e",
-      percent: 31,
-    },
-    {
-      description: "SMS",
-      value: 23210.2,
-      color: "#8b5cf6",
-      percent: 13,
-    },
-    {
-      description: "Outros",
-      value: 17854,
-      color: "#d4d4d4",
-      percent: 10,
-    },
-  ].map((e) => {
+const dataFormatted = computed(() => {
+  const colors = ["#1e6fea", "#22c55e", "#8b5cf6", "#d4d4d4"];
+  return data.value.map((e, index) => {
     return {
       ...e,
+      color: colors[index],
       valueFormatted: formatNumberToReal(e.value),
     };
   });
 });
 
 /* Methods */
+async function getData() {
+  try {
+    loading.value = true;
+    data.value = await CostsService.getDataByCategory();
+    generateChart();
+  } catch (error) {
+    console.error(error);
+  } finally {
+    loading.value = false;
+  }
+}
 function generateChart() {
   if (!chartRef.value) return;
   new Chart(chartRef.value, {
@@ -93,12 +86,12 @@ function generateChart() {
       },
     },
     data: {
-      labels: data.value.map((e) => e.description),
+      labels: dataFormatted.value.map((e) => e.type),
       datasets: [
         {
           label: "Custo por categoria",
-          data: data.value.map((e) => e.value),
-          backgroundColor: data.value.map((e) => e.color),
+          data: dataFormatted.value.map((e) => e.value),
+          backgroundColor: ["#1e6fea", "#22c55e", "#8b5cf6", "#d4d4d4"],
           hoverOffset: 4,
         },
       ],

@@ -8,49 +8,35 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, useTemplateRef } from "vue";
+import { computed, onMounted, ref, useTemplateRef } from "vue";
 import BaseCard from "../global/UI/base/BaseCard.vue";
 import Chart from "chart.js/auto";
+import CostsService from "@/services/CostsService";
 
 /* Refs */
 const chartRef = useTemplateRef("evolution-chart");
 
+/* Data */
+const data = ref<Costs.EvolutionByDate[]>([]);
+const loading = ref(false);
+
 /* Hooks */
 onMounted(() => {
-  generateChart();
-});
-
-/* Computed */
-const data = computed(() => {
-  return [
-    {
-      date: "22/06",
-      value: 10000,
-    },
-    {
-      date: "23/06",
-      value: 20000,
-    },
-    {
-      date: "24/06",
-      value: 5000,
-    },
-    {
-      date: "25/06",
-      value: 7500,
-    },
-    {
-      date: "26/06",
-      value: 15000,
-    },
-    {
-      date: "27/06",
-      value: 30000,
-    },
-  ];
+  getData();
 });
 
 /* Methods */
+async function getData() {
+  try {
+    loading.value = true;
+    data.value = await CostsService.getEvolutionByDate();
+    generateChart();
+  } catch (error) {
+    console.error(error);
+  } finally {
+    loading.value = false;
+  }
+}
 function generateChart() {
   if (!chartRef.value) return;
   new Chart(chartRef.value, {

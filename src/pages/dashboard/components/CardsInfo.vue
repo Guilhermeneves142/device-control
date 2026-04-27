@@ -1,39 +1,13 @@
 <template>
   <div style="display: flex; gap: 20px; justify-content: space-around">
     <InfoCard
-      icon="mobile_2"
+      v-for="item in cardFormatted"
+      :icon="item.icon"
       icon-color="white"
-      background-color="var(--color-primary)"
-      title="Total de dispositivos"
-      value="1.248"
-      text-footer="+8.2"
-      style="flex: 1"
-    />
-    <InfoCard
-      icon="attach_money"
-      icon-color="white"
-      background-color="var(--color-feedback-success)"
-      title="Custo mensal total"
-      value="R$ 178.540,00"
-      text-footer="-3.7"
-      style="flex: 1"
-    />
-    <InfoCard
-      icon="warning"
-      icon-color="white"
-      background-color="var(--color-feedback-warning)"
-      title="Dispositivos com alerta"
-      value="23"
-      text-footer="-15.0"
-      style="flex: 1"
-    />
-    <InfoCard
-      icon="group"
-      icon-color="white"
-      background-color="var(--color-secondary)"
-      title="Usuários ativos"
-      value="982"
-      text-footer="+5.4"
+      :background-color="item.backgroundColor"
+      :title="item.title"
+      :value="item.value"
+      :text-footer="item.increase"
       style="flex: 1"
     />
   </div>
@@ -41,4 +15,79 @@
 
 <script setup lang="ts">
 import InfoCard from "@/components/global/infoCard/InfoCard.vue";
+import useFormat from "@/composables/useFormat";
+import DashboardService from "@/services/DashboardService";
+import { computed, onMounted, ref } from "vue";
+
+/* Composables */
+const { formatNumberToReal } = useFormat();
+
+/* Data */
+const data = ref<Dashboard.CardHeader>({
+  totalDevices: {
+    value: 0,
+    increase: "",
+  },
+  monthlyCost: {
+    value: 0,
+    increase: "",
+  },
+  alertDevices: {
+    value: 0,
+    increase: "",
+  },
+  activeUsers: {
+    value: 0,
+    increase: "",
+  },
+});
+const loading = ref(false);
+
+/* Hooks */
+onMounted(() => {
+  getData();
+});
+
+/* Computed */
+const cardFormatted = computed(() => {
+  return [
+    {
+      icon: "mobile_2",
+      backgroundColor: "var(--color-primary)",
+      title: "Total de dispositivos",
+      ...data.value.totalDevices,
+    },
+    {
+      icon: "attach_money",
+      backgroundColor: "var(--color-feedback-success)",
+      title: "Custo mensal total",
+      value: formatNumberToReal(data.value.monthlyCost.value),
+      increase: data.value.monthlyCost.increase,
+    },
+    {
+      icon: "warning",
+      backgroundColor: "var(--color-feedback-warning)",
+      title: "Dispositivos com alerta",
+      ...data.value.alertDevices,
+    },
+    {
+      icon: "group",
+      backgroundColor: "var(--color-secondary)",
+      title: "Usuários ativos",
+      ...data.value.activeUsers,
+    },
+  ];
+});
+
+/* Methods */
+async function getData() {
+  try {
+    loading.value = true;
+    data.value = await DashboardService.getCardHeader();
+  } catch (error) {
+    console.error(error);
+  } finally {
+    loading.value = false;
+  }
+}
 </script>

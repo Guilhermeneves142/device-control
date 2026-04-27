@@ -3,7 +3,7 @@
     <h1 class="title">Maiores custos por usuário</h1>
     <table class="main-info-table">
       <tbody>
-        <tr v-for="item in data" :key="item.name">
+        <tr v-for="item in dataFormatted" :key="item.name">
           <td>
             <div class="table-person">
               <figure class="icon-item material-symbols-outlined">
@@ -24,36 +24,42 @@
 <script setup lang="ts">
 import BaseCard from "@/components/global/UI/base/BaseCard.vue";
 import useFormat from "@/composables/useFormat";
-import { computed } from "vue";
+import CostsService from "@/services/CostsService";
+import { computed, onMounted, ref } from "vue";
 
 /* Composables */
 const { formatNumberToReal } = useFormat();
 
-/* Computed */
-const data = computed(() => {
-  return [
-    {
-      name: "Rafael Andrade",
-      value: formatNumberToReal(1245.8),
-    },
-    {
-      name: "Bruce Wayne",
-      value: formatNumberToReal(1120.4),
-    },
-    {
-      name: "Dieni Kielermann",
-      value: formatNumberToReal(987.3),
-    },
-    {
-      name: "Rayque Cuevas",
-      value: formatNumberToReal(865.2),
-    },
-    {
-      name: "Rafaela Lopes",
-      value: formatNumberToReal(754.1),
-    },
-  ];
+/* Data */
+const data = ref<Costs.BiggestCostsByUser[]>([]);
+const loading = ref(false);
+
+/* Hooks */
+onMounted(() => {
+  getData();
 });
+
+/* Computed */
+const dataFormatted = computed(() => {
+  return data.value.map((e) => {
+    return {
+      ...e,
+      value: formatNumberToReal(e.value),
+    };
+  });
+});
+
+/* Methods */
+async function getData() {
+  try {
+    loading.value = true;
+    data.value = await CostsService.getBiggestCostsByUser();
+  } catch (error) {
+    console.error(error);
+  } finally {
+    loading.value = false;
+  }
+}
 </script>
 
 <style scoped>
@@ -79,5 +85,16 @@ const data = computed(() => {
 }
 .table-value {
   text-align: end;
+}
+
+@media (max-width: 1366px) {
+  .title {
+    font-size: var(--font-size-md);
+    margin-bottom: var(--spacing-2);
+  }
+
+  .main-info-table tbody td {
+    font-size: var(--font-size-xs);
+  }
 }
 </style>

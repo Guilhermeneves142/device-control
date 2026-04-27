@@ -7,7 +7,7 @@
         style="color: var(--color-feedback-success)"
         >check_circle</span
       >
-      <span>
+      <span class="insight-text">
         Parabéns, Você tem <strong>R$ 18.320,50</strong> de economia potencial
         neste periodo.
       </span>
@@ -34,5 +34,19 @@ import BaseCard from "@/components/global/UI/base/BaseCard.vue";
   display: flex;
   gap: var(--spacing-2);
   color: var(--color-text-main);
+}
+
+@media (max-width: 1366px) {
+  .insight-info {
+    padding: var(--spacing-2);
+    gap: var(--spacing-1);
+  }
+  .insight-text {
+    font-size: var(--font-size-xs);
+  }
+  .title {
+    font-size: var(--font-size-md);
+    margin-bottom: var(--spacing-2);
+  }
 }
 </style>
