@@ -37,4 +37,16 @@
   align-items: center;
   color: var(--color-on-primary);
 }
+
+@media (max-width: 768px) {
+  .sidebar-header {
+    width: 100%;
+  }
+  .sidebar-header .title {
+    color: var(--color-text-main);
+  }
+  .sidebar-header .subtitle {
+    color: var(--color-text-secondary);
+  }
+}
 </style>

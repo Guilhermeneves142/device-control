@@ -1,5 +1,12 @@
 <template>
-  <div style="display: flex; gap: 20px; justify-content: space-around">
+  <div
+    style="
+      display: flex;
+      gap: 10px;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    "
+  >
     <InfoCard
       v-for="item in cardFormatted"
       :key="item.title"

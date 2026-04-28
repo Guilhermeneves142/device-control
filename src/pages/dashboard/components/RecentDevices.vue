@@ -3,7 +3,7 @@
     <h1 class="title">Dispositivos recentes</h1>
 
     <table class="recent-devices-table">
-      <thead>
+      <thead v-if="!isMobile">
         <tr>
           <th>Usuário</th>
           <th>Dispositivo</th>
@@ -19,12 +19,17 @@
             <div
               style="display: flex; align-items: center; gap: var(--spacing-3)"
             >
-              <figure class="icon-item material-symbols-outlined">
+              <figure
+                class="icon-item material-symbols-outlined"
+                v-if="!isMobile"
+              >
                 person
               </figure>
               <section>
                 <div class="main-item">{{ item.user.name }}</div>
-                <span class="sub-item">{{ item.user.email }}</span>
+                <span class="sub-item" v-if="!isMobile">{{
+                  item.user.email
+                }}</span>
               </section>
             </div>
           </td>
@@ -32,7 +37,10 @@
             <div
               style="display: flex; align-items: center; gap: var(--spacing-3)"
             >
-              <figure class="icon-item material-symbols-outlined">
+              <figure
+                class="icon-item material-symbols-outlined"
+                v-if="!isMobile"
+              >
                 mobile_2
               </figure>
               <section>
@@ -41,18 +49,19 @@
               </section>
             </div>
           </td>
-          <td>{{ item.politics }}</td>
+          <td v-if="!isMobile">{{ item.politics }}</td>
           <td>{{ item.monthlyCost }}</td>
           <td>
             <div class="status-pill">
               <div
                 class="dot"
+                v-if="!isMobile"
                 :style="{ backgroundColor: item.status.color }"
               />
               <span>{{ item.status.text }}</span>
             </div>
           </td>
-          <td>{{ item.lastUpdate }}</td>
+          <td v-if="!isMobile">{{ item.lastUpdate }}</td>
         </tr>
       </tbody>
     </table>
@@ -62,8 +71,12 @@
 <script setup lang="ts">
 import BaseCard from "@/components/global/UI/base/BaseCard.vue";
 import useFormat from "@/composables/useFormat";
+import useMobileApp from "@/composables/useMobileApp";
 import DevicesService from "@/services/DevicesService";
 import { computed, onMounted, ref } from "vue";
+
+/* Composables */
+const { isMobile } = useMobileApp();
 
 /* Composables */
 const { formatNumberToReal } = useFormat();
@@ -190,6 +203,18 @@ function generateStatusObject(status: "ACTIVE" | "BLOCKED" | "WARNING") {
 
   .recent-devices-table tbody td {
     padding: var(--spacing-1);
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: var(--font-size-md);
+    margin-bottom: var(--spacing-2);
+  }
+
+  .recent-devices-table tbody td {
+    padding: var(--spacing-1);
+    font-size: var(--font-size-xs);
   }
 }
 </style>

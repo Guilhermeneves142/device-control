@@ -161,4 +161,27 @@ function generateChart() {
     margin-bottom: var(--spacing-2);
   }
 }
+
+@media (max-width: 768px) {
+  .main-info {
+    gap: var(--spacing-5);
+  }
+
+  .title {
+    font-size: var(--font-size-md);
+    margin-bottom: var(--spacing-2);
+  }
+
+  .table-category {
+    font-size: var(--font-size-sm);
+  }
+
+  .table-value {
+    font-size: var(--font-size-sm);
+  }
+
+  .table-percent {
+    font-size: var(--font-size-sm);
+  }
+}
 </style>

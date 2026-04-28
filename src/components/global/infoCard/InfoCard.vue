@@ -4,6 +4,7 @@
       <figure
         class="info-card-icon material-symbols-outlined"
         :style="styleIcon"
+        v-if="!isMobile"
       >
         {{ icon }}
       </figure>
@@ -26,6 +27,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import BaseCard from "../UI/base/BaseCard.vue";
+import useMobileApp from "@/composables/useMobileApp";
 
 /* Props */
 interface Props {
@@ -37,6 +39,9 @@ interface Props {
   textFooter: string;
 }
 const props = withDefaults(defineProps<Props>(), {});
+
+/* Composables */
+const { isMobile } = useMobileApp();
 
 /* Computed */
 const styleIcon = computed(() => {
@@ -97,6 +102,29 @@ const styleIcon = computed(() => {
   }
   .info-card-value {
     font-size: var(--font-size-lg);
+  }
+  .info-card-footer {
+    font-size: var(--font-size-xs);
+    text-wrap: nowrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .info-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: fit-content;
+    font-size: 30px;
+    padding: var(--spacing-2);
+    border-radius: var(--radius-xl);
+  }
+
+  .info-card-title {
+    font-size: var(--font-size-xs);
+  }
+  .info-card-value {
+    font-size: var(--font-size-md);
   }
   .info-card-footer {
     font-size: var(--font-size-xs);

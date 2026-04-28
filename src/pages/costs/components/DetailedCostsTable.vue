@@ -8,8 +8,10 @@
           <th>Departamento</th>
           <th>Categoria</th>
           <th style="text-align: center">Custo no periodo(R$)</th>
-          <th style="text-align: center">% do total</th>
-          <th style="text-align: center">Variação vs anterior</th>
+          <th style="text-align: center" v-if="!isMobile">% do total</th>
+          <th style="text-align: center" v-if="!isMobile">
+            Variação vs anterior
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -31,8 +33,12 @@
             </div>
           </td>
           <td style="text-align: center">{{ item.value }}</td>
-          <td style="text-align: center">{{ item.percent }}</td>
-          <td style="text-align: center">{{ item.variant }}</td>
+          <td style="text-align: center" v-if="!isMobile">
+            {{ item.percent }}
+          </td>
+          <td style="text-align: center" v-if="!isMobile">
+            {{ item.variant }}
+          </td>
         </tr>
         <tr>
           <td><strong>Total</strong></td>
@@ -40,10 +46,10 @@
           <td style="text-align: center">
             <strong>R$ 235.711,50</strong>
           </td>
-          <td style="text-align: center">
+          <td style="text-align: center" v-if="!isMobile">
             <strong>100% </strong>
           </td>
-          <td style="text-align: center">+3.7%</td>
+          <td style="text-align: center" v-if="!isMobile">+3.7%</td>
         </tr>
       </tbody>
     </table>
@@ -53,8 +59,12 @@
 <script setup lang="ts">
 import BaseCard from "@/components/global/UI/base/BaseCard.vue";
 import useFormat from "@/composables/useFormat";
+import useMobileApp from "@/composables/useMobileApp";
 import CostsService from "@/services/CostsService";
 import { computed, onMounted, ref } from "vue";
+
+/* Composables */
+const { isMobile } = useMobileApp();
 
 /* Composables */
 const { formatNumberToReal } = useFormat();

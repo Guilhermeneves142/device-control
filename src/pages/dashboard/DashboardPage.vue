@@ -1,7 +1,7 @@
 <template>
   <div>
     <CardsInfo />
-    <div style="display: flex; gap: 20px; margin-top: 20px">
+    <div style="display: flex; gap: 20px; margin-top: 20px; flex-wrap: wrap">
       <CategoryCostCard style="flex: 1" />
       <EvolutionCostCard style="flex: 1" />
     </div>

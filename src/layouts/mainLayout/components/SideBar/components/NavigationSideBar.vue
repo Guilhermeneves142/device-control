@@ -1,5 +1,5 @@
 <template>
-  <nav class="sidebar-nav">
+  <nav class="sidebar-nav" v-if="!isMobile">
     <LinkSideBar
       class="route"
       :to="{ name: 'Dashboard' }"
@@ -22,7 +22,11 @@
 </template>
 
 <script setup lang="ts">
+import useMobileApp from "@/composables/useMobileApp";
 import LinkSideBar from "./LinkSideBar.vue";
+
+/* Composables */
+const { isMobile } = useMobileApp();
 </script>
 
 <style scoped>

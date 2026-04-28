@@ -1,7 +1,7 @@
 <template>
   <div>
     <CardsInfo />
-    <div style="display: flex; gap: 20px; margin-top: 20px">
+    <div style="display: flex; gap: 20px; margin-top: 20px; flex-wrap: wrap">
       <CategoryCostCard style="flex: 3" />
       <EvolutionCostCard style="flex: 4" />
     </div>
@@ -13,20 +13,11 @@
         margin-top: 20px;
       "
     >
-      <div
-        style="
-          grid-column: span 1;
-          display: flex;
-          flex-direction: column;
-          gap: 20px;
-        "
-      >
+      <div class="detailed-cards-group">
         <InsightsCard style="width: 100%; box-sizing: border-box" />
         <BiggerCostsPerUser style="width: 100%; box-sizing: border-box" />
       </div>
-      <DetailedCostsTable
-        style="grid-column: span 3; width: 100%; box-sizing: border-box"
-      />
+      <DetailedCostsTable class="detailed-costs-table" />
     </div>
   </div>
 </template>
@@ -39,3 +30,29 @@ import InsightsCard from "./components/InsightsCard.vue";
 import BiggerCostsPerUser from "./components/BiggerCostsPerUser.vue";
 import DetailedCostsTable from "./components/DetailedCostsTable.vue";
 </script>
+
+<style scoped>
+.detailed-cards-group {
+  grid-column: span 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.detailed-costs-table {
+  grid-column: span 3;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .detailed-cards-group {
+    grid-column: span 4;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .detailed-costs-table {
+    grid-column: span 4;
+  }
+}
+</style>

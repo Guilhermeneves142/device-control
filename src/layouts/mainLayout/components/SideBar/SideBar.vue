@@ -27,4 +27,12 @@ import NavigationSideBar from "./components/NavigationSideBar.vue";
   position: sticky;
   top: 0;
 }
+
+@media (max-width: 768px) {
+  .sidebar {
+    background-color: var(--color-surface);
+    width: 100%;
+    min-height: fit-content;
+  }
+}
 </style>

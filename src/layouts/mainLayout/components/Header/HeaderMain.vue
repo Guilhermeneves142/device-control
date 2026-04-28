@@ -83,4 +83,16 @@ const headerData = computed(() => {
     font-size: var(--font-size-sm);
   }
 }
+
+@media (max-width: 768px) {
+  .main-header {
+    padding: var(--spacing-4);
+    background-color: var(--color-background);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    box-shadow: none;
+  }
+}
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <footer class="sidebar-footer">
+  <footer class="sidebar-footer" v-if="!isMobile">
     <figure class="sidebar-footer-icon material-symbols-outlined">
       person
     </figure>
@@ -9,6 +9,13 @@
     </section>
   </footer>
 </template>
+
+<script setup lang="ts">
+import useMobileApp from "@/composables/useMobileApp";
+
+/* Composables */
+const { isMobile } = useMobileApp();
+</script>
 
 <style scoped>
 .sidebar-footer {
