@@ -21,6 +21,6 @@ const routes: RouteRecordRaw[] = [
 ];
 
 export const router = createRouter({
-  history: createMemoryHistory("/device-control/"),
+  history: createMemoryHistory(),
   routes,
 });
