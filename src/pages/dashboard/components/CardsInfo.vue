@@ -15,6 +15,7 @@
       :title="item.title"
       :value="item.value"
       :text-footer="item.increase"
+      style="flex: 1"
     />
   </div>
 </template>

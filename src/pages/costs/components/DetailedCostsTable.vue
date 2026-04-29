@@ -156,4 +156,16 @@ async function getData() {
     border-radius: var(--radius-md);
   }
 }
+
+@media (max-width: 768px) {
+  .detailed-costs-table thead th {
+    padding: var(--spacing-1);
+    font-size: var(--font-size-xs);
+  }
+
+  .detailed-costs-table tbody td {
+    padding: var(--spacing-2);
+    font-size: var(--font-size-xs);
+  }
+}
 </style>

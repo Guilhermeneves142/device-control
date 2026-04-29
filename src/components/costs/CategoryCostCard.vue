@@ -173,15 +173,15 @@ function generateChart() {
   }
 
   .table-category {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-xs);
   }
 
   .table-value {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-xs);
   }
 
   .table-percent {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-xs);
   }
 }
 </style>

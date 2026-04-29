@@ -172,13 +172,13 @@ function generateStatusObject(status: "ACTIVE" | "BLOCKED" | "DISABLED") {
 
 @media (max-width: 1366px) {
   .devices-table thead th {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-xs);
   }
 
   .devices-table tbody td {
     padding-bottom: var(--spacing-1);
     padding-top: var(--spacing-1);
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-xs);
   }
 
   .main-item {
