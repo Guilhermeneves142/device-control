@@ -1,0 +1,88 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+export const Swatch = ({ token, hex, label }) => (
+  <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      gap: "16px",
+      marginBottom: "14px",
+    }}
+  >
+    <div
+      title={hex}
+      style={{
+        width: "56px",
+        height: "56px",
+        borderRadius: "var(--radius-md)",
+        backgroundColor: `var(${token})`,
+        border: "1px solid var(--color-border)",
+        flexShrink: 0,
+        boxSizing: "border-box",
+      }}
+    />
+    <div>
+      <code style={{ fontSize: "13px", fontWeight: 600 }}>{token}</code>
+      {label ? (
+        <div style={{ fontSize: "12px", color: "var(--color-text-secondary)", marginTop: "2px" }}>{label}</div>
+      ) : null}
+      <div style={{ fontSize: "12px", color: "var(--color-text-placeholder)", fontFamily: "monospace" }}>{hex}</div>
+    </div>
+  </div>
+);
+
+export const Section = ({ title, children }) => (
+  <section style={{ marginBottom: "32px" }}>
+    <h2 style={{ fontSize: "18px", marginBottom: "16px", borderBottom: "1px solid var(--color-border)", paddingBottom: "8px" }}>
+      {title}
+    </h2>
+    {children}
+  </section>
+);
+
+<Meta title="Design System/Cores" />
+
+# Paleta de cores
+
+Tokens definidos em `src/styles/tokens/color.css` e importados em `src/style.css`. Use sempre variáveis CSS (`var(--color-…)`) nos componentes.
+
+<div className="ds-doc">
+  <Section title="Primárias e superfície">
+    <Swatch token="--color-primary" hex="#1e6fea" label="Ações principais, links" />
+    <Swatch token="--color-on-primary" hex="#eaeef5" label="Texto sobre primária" />
+    <Swatch token="--color-primary-hover" hex="#1557c0" label="Hover da primária" />
+    <Swatch token="--color-secondary" hex="#8b5cf6" />
+    <Swatch token="--color-on-secondary" hex="#ffffff" />
+    <Swatch token="--color-secondary-hover" hex="#6d28d9" />
+    <Swatch token="--color-tertiary" hex="#071f45" />
+    <Swatch token="--color-on-tertiary" hex="#d9e2f2" />
+    <Swatch token="--color-tertiary-hover" hex="#041a3d" />
+  </Section>
+
+  <Section title="Feedback">
+    <Swatch token="--color-feedback-success" hex="#22c55e" />
+    <Swatch token="--color-feedback-error" hex="#ef4444" />
+    <Swatch token="--color-feedback-warning" hex="#f59e0b" />
+  </Section>
+
+  <Section title="Interface e texto">
+    <Swatch token="--color-background" hex="#f5f7fa" label="Fundo da app" />
+    <Swatch token="--color-border" hex="#e5e7eb" />
+    <Swatch token="--color-surface" hex="#fefefe" label="Cartões, superfícies elevadas" />
+    <Swatch token="--color-text-main" hex="#111827" />
+    <Swatch token="--color-text-secondary" hex="#6b7280" />
+    <Swatch token="--color-text-placeholder" hex="#b1b3b8" />
+    <Swatch token="--color-disabled" hex="#d4d4d4" />
+    <Swatch token="--color-on-disabled" hex="#515763" />
+  </Section>
+</div>
+
+<style>{`
+  .ds-doc {
+    max-width: 640px;
+    padding: 8px 0 32px;
+  }
+  .ds-doc h1 {
+    margin-bottom: 8px;
+  }
+`}</style>

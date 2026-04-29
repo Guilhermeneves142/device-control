@@ -1,0 +1,21 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Design System/Introdução" />
+
+# Design system
+
+Este grupo documenta os **tokens de design** usados na app (`src/styles/tokens/` + `src/style.css`), visíveis no Storybook graças ao import global em `.storybook/preview.ts`.
+
+## Páginas
+
+| Página | Conteúdo |
+|--------|-----------|
+| **Cores** | Paleta semântica (primárias, feedback, texto, superfície) |
+| **Tipografia** | Tamanhos, pesos, interlineado e família |
+| **Espaçamentos** | Escala `--spacing-*` e exemplo de `gap` |
+| **Raio** | `border-radius` (`--radius-*`) |
+
+## Boas práticas
+
+- Preferir sempre **variáveis CSS** (`var(--token)`) em vez de valores fixos repetidos.
+- Ao adicionar um token novo, atualizar o ficheiro em `src/styles/tokens/` **e** a página MDX correspondente aqui no Storybook.

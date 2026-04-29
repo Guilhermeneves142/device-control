@@ -1,0 +1,102 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+export const SizeRow = ({ varName, label }) => (
+  <div
+    style={{
+      display: "grid",
+      gridTemplateColumns: "minmax(200px, 1fr) 1fr",
+      gap: "16px",
+      alignItems: "center",
+      padding: "12px 0",
+      borderBottom: "1px solid var(--color-border)",
+    }}
+  >
+    <div>
+      <code style={{ fontSize: "12px", color: "var(--color-text-secondary)" }}>{varName}</code>
+      {label ? (
+        <div style={{ fontSize: "11px", color: "var(--color-text-placeholder)", marginTop: "4px" }}>{label}</div>
+      ) : null}
+    </div>
+    <span style={{ fontSize: `var(${varName})`, fontFamily: "var(--font-family-base)" }}>Aa texto exemplo 123</span>
+  </div>
+);
+
+export const WeightRow = ({ varName, label }) => (
+  <div
+    style={{
+      display: "grid",
+      gridTemplateColumns: "minmax(200px, 1fr) 1fr",
+      gap: "16px",
+      alignItems: "center",
+      padding: "12px 0",
+      borderBottom: "1px solid var(--color-border)",
+      fontSize: "var(--font-size-lg)",
+      fontFamily: "var(--font-family-base)",
+    }}
+  >
+    <code style={{ fontSize: "12px", color: "var(--color-text-secondary)" }}>{varName}</code>
+    <span style={{ fontWeight: `var(${varName})` }}>{label}</span>
+  </div>
+);
+
+<Meta title="Design System/Tipografia" />
+
+# Tipografia
+
+Definições em `src/styles/tokens/typograph.css`. Família base: **Inter** (garante o carregamento da fonte na app / iframe do Storybook).
+
+<div className="ds-typo">
+
+## Tamanhos (`--font-size-*`)
+
+<div style={{ marginTop: "16px" }}>
+  <SizeRow varName="--font-size-xs" label="12px" />
+  <SizeRow varName="--font-size-sm" label="14px" />
+  <SizeRow varName="--font-size-md" label="16px" />
+  <SizeRow varName="--font-size-lg" label="18px" />
+  <SizeRow varName="--font-size-xl" label="20px" />
+  <SizeRow varName="--font-size-2xl" label="24px" />
+  <SizeRow varName="--font-size-3xl" label="30px" />
+</div>
+
+## Pesos (`--font-weight-*`)
+
+<div style={{ marginTop: "16px" }}>
+  <WeightRow varName="--font-weight-regular" label="Regular — texto corrido" />
+  <WeightRow varName="--font-weight-medium" label="Medium — subtítulos e UI" />
+  <WeightRow varName="--font-weight-semibold" label="Semibold" />
+  <WeightRow varName="--font-weight-bold" label="Bold — valores e títulos" />
+</div>
+
+## Interlineado (`--line-height-*`)
+
+<div style={{ marginTop: "16px", maxWidth: "440px", fontSize: "var(--font-size-md)", fontFamily: "var(--font-family-base)" }}>
+  <p style={{ lineHeight: "var(--line-height-tight)", marginBottom: "16px" }}>
+    <strong>Tight (1.2)</strong> — <code>--line-height-tight</code>. Bloco curto para títulos ou legendas compactas.
+  </p>
+  <p style={{ lineHeight: "var(--line-height-normal)", marginBottom: "16px" }}>
+    <strong>Normal (1.5)</strong> — <code>--line-height-normal</code>. Parágrafo padrão para a maioria dos textos na interface.
+  </p>
+  <p style={{ lineHeight: "var(--line-height-relaxed)" }}>
+    <strong>Relaxed (1.75)</strong> — <code>--line-height-relaxed</code>. Textos mais longos com mais respiro entre linhas.
+  </p>
+</div>
+
+## Família
+
+<p style={{ marginTop: "20px", fontSize: "var(--font-size-sm)", color: "var(--color-text-secondary)" }}>
+  Token: <code>--font-family-base</code>
+  <br />
+  <span style={{ fontFamily: "var(--font-family-base)", fontSize: "var(--font-size-xl)", display: "inline-block", marginTop: "8px" }}>
+    "Inter", sans-serif
+  </span>
+</p>
+
+</div>
+
+<style>{`
+  .ds-typo {
+    max-width: 720px;
+    padding: 8px 0 32px;
+  }
+`}</style>

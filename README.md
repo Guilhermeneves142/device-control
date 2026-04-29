@@ -53,7 +53,8 @@ npm install
 ## Storybook
 
 - Catálogo de stories em `src/**/*.stories.ts` (ex.: componentes em `src/components/global/`).
-- O ficheiro **`.storybook/preview.ts`** importa **`src/style.css`**, para os stories terem os mesmos **tokens CSS** (`--color-*`, `--spacing-*`, etc.) que a aplicação.
+- Documentação de **tokens de design** no grupo **Design System** (`src/stories/design-system/*.mdx`): cores, tipografia, espaçamentos e raios.
+- O ficheiro **`.storybook/preview.ts`** importa **`src/style.css`**, para os stories terem os mesmos **tokens CSS** (`--color-*`, `--spacing-*`, etc.) que a aplicação. A fonte **Inter** é carregada em **`.storybook/preview-head.html`** para alinhar com `--font-family-base`.
 
 ## Vitest
 
