@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/vue3-vite";
 import BaseCard from "./BaseCard.vue";
 
 const meta = {
-  title: "Base/Card",
+  title: "UI/Card",
   component: BaseCard,
   tags: ["autodocs"],
 } satisfies Meta<typeof BaseCard>;

@@ -4,7 +4,7 @@ import { ref } from "vue";
 import BaseInput from "./BaseInput.vue";
 
 const meta = {
-  title: "Base/Input",
+  title: "UI/Input",
   component: BaseInput,
   tags: ["autodocs"],
   render: (args) => ({
