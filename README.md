@@ -1,6 +1,6 @@
 # Dashboard Device
 
-Painel web para visualizacao de dispositivos e custos, desenvolvido com Vue 3, TypeScript e Vite.
+Painel web para visualização de dispositivos e custos, desenvolvido com Vue 3, TypeScript e Vite.
 
 ## Tecnologias
 
@@ -10,13 +10,16 @@ Painel web para visualizacao de dispositivos e custos, desenvolvido com Vue 3, T
 - Vite
 - Chart.js
 - VueUse
+- Storybook (documentação e desenvolvimento isolado de UI)
+- Vitest (testes unitários de componentes)
+- Husky (hooks Git, p. ex. antes de commit)
 
 ## Requisitos
 
-- Node.js 20+ (recomendado)
+- Node.js 22.14 (recomendado)
 - pnpm (recomendado) ou npm
 
-## Instalacao
+## Instalação
 
 Com pnpm:
 
@@ -30,40 +33,66 @@ Com npm:
 npm install
 ```
 
-## Scripts disponiveis
+## Scripts disponíveis
 
-- `pnpm dev` ou `npm run dev`: inicia o servidor de desenvolvimento
-- `pnpm build` ou `npm run build`: gera build de producao com checagem de tipos
-- `pnpm preview` ou `npm run preview`: sobe o servidor para visualizar o build local
+| Script | Descrição |
+|--------|-----------|
+| `pnpm dev` / `npm run dev` | Servidor de desenvolvimento Vite |
+| `pnpm build` / `npm run build` | Build de produção com `vue-tsc` e checagem de tipos |
+| `pnpm preview` / `npm run preview` | Servidor estático para validar o build local |
+| `pnpm storybook` / `npm run storybook` | Storybook em **http://localhost:6006** |
+| `pnpm build-storybook` / `npm run build-storybook` | Gera o Storybook estático |
+| `pnpm test` / `npm run test` | Vitest em modo run (testes unitários) |
+| `pnpm test:watch` / `npm run test:watch` | Vitest em modo watch |
+
+## Mobile e layout responsivo
+
+- O composable **`useMobileApp`** (`src/composables/useMobileApp.ts`) considera **mobile** quando a largura da janela é **≤ 768 px** (atualiza em `resize`).
+- Para testar: redimensione o navegador ou use as ferramentas de dispositivo (DevTools).
+
+## Storybook
+
+- Catálogo de stories em `src/**/*.stories.ts` (ex.: componentes em `src/components/global/`).
+- O ficheiro **`.storybook/preview.ts`** importa **`src/style.css`**, para os stories terem os mesmos **tokens CSS** (`--color-*`, `--spacing-*`, etc.) que a aplicação.
+
+## Vitest
+
+- Configuração no **`vite.config.ts`**: ambiente **`happy-dom`**, padrão de ficheiros **`src/components/global/**/*.spec.ts`**.
+- Testes com **`@vue/test-utils`**; foco em componentes globais (BaseButton, BaseCard, BaseInput, DropdownSelect, InfoCard, etc.).
+- Comando principal: **`pnpm test`** (ou `npm run test`).
 
 ## Rotas principais
 
-- `/dashboard`: visao geral do painel
-- `/devices`: listagem e informacoes de dispositivos
-- `/costs`: analise e detalhamento de custos
-- `*`: pagina de nao encontrado (`NotFound`)
+- `/dashboard`: visão geral do painel
+- `/devices`: listagem e informações de dispositivos
+- `/costs`: análise e detalhamento de custos
+- `*`: página de não encontrado (`NotFound`)
 
-## Estrutura basica
+## Estrutura básica
 
 ```txt
 src/
-  components/       # componentes reutilizaveis globais e de dominio
-  composables/      # composables utilitarios (ex.: formatacao)
-  layouts/          # layout principal e componentes de navegacao
-  pages/            # paginas por modulo (dashboard, devices, costs)
-  routes/           # configuracao e definicao das rotas
+  components/       # componentes reutilizáveis globais e de domínio
+  composables/      # composables utilitários (ex.: formatação, useMobileApp)
+  layouts/          # layout principal e componentes de navegação
+  pages/            # páginas por módulo (dashboard, devices, costs)
+  routes/           # configuração e definição das rotas
   styles/           # tokens e estilos globais
+.storybook/         # configuração Storybook + preview (CSS global)
+.husky/             # hooks Git (pre-commit, etc.)
 ```
 
 ## Desenvolvimento
 
 1. Inicie o servidor:
+
    ```bash
    pnpm dev
    ```
-2. Abra no navegador o endereco exibido no terminal (geralmente `http://localhost:5173`).
 
-## Build de producao
+2. Abra no navegador o endereço indicado no terminal (geralmente `http://localhost:5173`).
+
+## Build de produção
 
 ```bash
 pnpm build
