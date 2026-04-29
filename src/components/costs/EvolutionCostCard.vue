@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref, useTemplateRef } from "vue";
-import BaseCard from "../global/UI/base/BaseCard.vue";
+import BaseCard from "../global/UI/base/BaseCard/BaseCard.vue";
 import Chart from "chart.js/auto";
 import CostsService from "@/services/CostsService";
 

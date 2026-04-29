@@ -1,8 +1,14 @@
 <template>
-  <button class="base-btn">
+  <button class="base-btn" type="button" :disabled="disabled">
     <slot />
   </button>
 </template>
+
+<script setup lang="ts">
+withDefaults(defineProps<{ disabled?: boolean }>(), {
+  disabled: false,
+});
+</script>
 
 <style scoped>
 .base-btn {

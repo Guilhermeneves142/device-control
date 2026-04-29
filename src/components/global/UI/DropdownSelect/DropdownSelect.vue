@@ -38,7 +38,7 @@
 import { computed, ref, useTemplateRef } from "vue";
 
 /* Components */
-import BaseInput from "@/components/global/UI/base/BaseInput.vue";
+import BaseInput from "@/components/global/UI/base/BaseInput/BaseInput.vue";
 import { onClickOutside } from "@vueuse/core";
 
 /* Types */

@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import BaseCard from "../UI/base/BaseCard.vue";
+import BaseCard from "../UI/base/BaseCard/BaseCard.vue";
 import useMobileApp from "@/composables/useMobileApp";
 
 /* Props */

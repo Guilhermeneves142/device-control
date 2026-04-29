@@ -16,7 +16,6 @@
 /* Props */
 export interface Props {
   id?: string;
-  label?: string;
   type?: string;
   placeholder?: string;
   readonly?: boolean;

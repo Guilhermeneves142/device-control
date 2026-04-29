@@ -57,7 +57,7 @@
 </template>
 
 <script setup lang="ts">
-import BaseCard from "@/components/global/UI/base/BaseCard.vue";
+import BaseCard from "@/components/global/UI/base/BaseCard/BaseCard.vue";
 import useFormat from "@/composables/useFormat";
 import useMobileApp from "@/composables/useMobileApp";
 import CostsService from "@/services/CostsService";
