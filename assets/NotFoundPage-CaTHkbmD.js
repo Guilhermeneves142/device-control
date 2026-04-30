@@ -1,0 +1,1 @@
+import{c as e,t,y as n}from"./_plugin-vue_export-helper-CulEvNuW.js";var r={};function i(t,r){return n(),e(`div`,null,`Página não encontrada`)}var a=t(r,[[`render`,i]]);export{a as default};

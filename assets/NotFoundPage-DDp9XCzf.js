@@ -1,1 +1,0 @@
-import{c as e,t,v as n}from"./_plugin-vue_export-helper-Bhl86lYV.js";var r={};function i(t,r){return n(),e(`div`,null,`Página não encontrada`)}var a=t(r,[[`render`,i]]);export{a as default};

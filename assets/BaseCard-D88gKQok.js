@@ -1,0 +1,1 @@
+import{S as e,c as t,t as n,y as r}from"./_plugin-vue_export-helper-CulEvNuW.js";var i={},a={class:`base-card`};function o(n,i){return r(),t(`div`,a,[e(n.$slots,`default`,{},void 0,!0)])}var s=n(i,[[`render`,o],[`__scopeId`,`data-v-84e420af`]]);export{s as t};
