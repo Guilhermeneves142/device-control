@@ -1,7 +1,6 @@
 import {
   createMemoryHistory,
   createRouter,
-  createWebHistory,
   type RouteRecordRaw,
 } from "vue-router";
 import autenticatedRoutes from "./autenticated.routes";
