@@ -1,17 +1,26 @@
 import {
   createMemoryHistory,
   createRouter,
+  createWebHistory,
   type RouteRecordRaw,
 } from "vue-router";
-import mainRoutes from "./main.routes";
+import autenticatedRoutes from "./autenticated.routes";
 import MainLayout from "@/layouts/mainLayout/MainLayout.vue";
+import notAutenticatedRoutes from "./notAutenticated.routes";
+import NotAutenticatedLayout from "@/layouts/notAutenticated/NotAutenticatedLayout.vue";
 
 const routes: RouteRecordRaw[] = [
   {
-    path: "/",
+    path: "/#",
     component: MainLayout,
     redirect: { name: "Dashboard" },
-    children: mainRoutes,
+    children: autenticatedRoutes,
+  },
+  {
+    path: "/",
+    component: NotAutenticatedLayout,
+    redirect: { name: "Homepage" },
+    children: notAutenticatedRoutes,
   },
   {
     path: "/:pathMatch(.*)*",
@@ -22,5 +31,6 @@ const routes: RouteRecordRaw[] = [
 
 export const router = createRouter({
   history: createMemoryHistory("/device-control"),
+  // history: createWebHistory(),
   routes,
 });
